@@ -1,6 +1,9 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "./include/Rect.h"
+#include <vector>
+#include <time.h>
+#include <stdlib.h>
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -9,7 +12,9 @@ using std::cout;
 using std::endl;
 using std::string;
 
+
 int main(int argc, char * argv[]){
+	srand(time(NULL));
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	SDL_Event event;
@@ -21,8 +26,13 @@ int main(int argc, char * argv[]){
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	
-	Rect rect(100,100,50,50);
-	
+	int row_amount = WINDOW_WIDTH / 6;
+	std::vector<Rect> rects;
+	for(int i = 0; i < row_amount; i++){
+		Rect rect(i * 6, rand() % WINDOW_HEIGHT, 5, 10);
+		rects.push_back(rect);
+	}
+
 
 
 	bool is_running = true;
@@ -34,9 +44,13 @@ int main(int argc, char * argv[]){
 		}
 
 		
-		//RENDER
+		
 		SDL_RenderClear(renderer);
-		rect.draw(renderer);
+		
+		for(int i = 0; i < rects.size(); i++){
+			rects[i].draw(renderer);
+			rects[i].update(WINDOW_HEIGHT);
+		}
 		SDL_RenderPresent(renderer);
 		SDL_SetRenderDrawColor(renderer, 0, 0,0,0);
 		SDL_Delay(10);
