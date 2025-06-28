@@ -6,6 +6,7 @@ class Rect{
 public:
 	Rect(int x, int y, int w, int h);
 	void draw(SDL_Renderer*& renderer);
+	void update(int WINDOW_HEIGHT);
 
 	int x_pos = 0;
 	int y_pos = 0;
